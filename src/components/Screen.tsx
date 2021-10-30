@@ -73,8 +73,8 @@ export const Screen = () => {
 
           return (
             <rect
-              width="1"
-              height="1"
+              width={1.01}
+              height={1.01}
               x={x}
               y={y}
               onClick={onPixelClick([x, y])}

@@ -11,12 +11,15 @@ const style = {
     height: "100vh",
     flexDirection: "column" as "column",
   },
-  header: {},
+  header: {
+    userSelect: "none" as "none",
+  },
   footer: {
     display: "flex",
     justifyContent: "center",
     textTransform: "uppercase" as "uppercase",
     gap: 32,
+    userSelect: "none" as "none",
   },
   title: {
     margin: 0,
