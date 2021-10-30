@@ -50,11 +50,12 @@ export const MintButton = () => {
     randomize();
     const leftPart = encode256(screencode.leftCode);
     const rightPart = encode256(screencode.rightCode);
-    console.log(leftPart, rightPart);
+    console.log(screencode.leftCode, leftPart);
+    console.log(screencode.rightCode, rightPart);
     send(leftPart, rightPart);
   };
 
-  console.log(state);
+  state && console.log(state);
 
   return (
     <button

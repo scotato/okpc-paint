@@ -1,5 +1,6 @@
 import create from 'zustand'
 import { useEffect } from 'react'
+import { BigNumber } from 'ethers';
 
 type ScreenState = {
   width: number
@@ -75,8 +76,6 @@ export const useScreen = () => {
     }
   }, [store])
 
-  console.log('screen code', store.screencode)
-
   return store
 }
 
@@ -87,16 +86,16 @@ function gridToPairOfUint160(pixels: Pixel[][]) {
   let grid2R = gridR[0].map((val, index) =>
     gridR.map((row) => row[index]).reverse()
   )[0];
-  let leftPart = 0n;
-  let rightPart = 0n;
+  let leftPart = BigNumber.from(0n);
+  let rightPart = BigNumber.from(0n);
   for (let i = 0; i < 14; i++) {
     for (let j = 0; j < 22; j++) {
-      const power = BigInt(13 - i) + 14n * BigInt(j % 11);
-      const diff = grid2R[i][j].on ? 2n ** power : 0n;
+      const power = BigNumber.from(13 - i).add(BigNumber.from(j % 11).mul(14n));
+      const diff = grid2R[i][j].on ? power.pow(2n) : 0n;
       if (j < 11) {
-        leftPart += diff;
+        leftPart = leftPart.add(diff);
       } else {
-        rightPart += diff;
+        rightPart = rightPart.add(diff);
       }
     }
   }
