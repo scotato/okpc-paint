@@ -91,7 +91,7 @@ function gridToPairOfUint160(pixels: Pixel[][]) {
   for (let i = 0; i < 14; i++) {
     for (let j = 0; j < 22; j++) {
       const power = BigNumber.from(13 - i).add(BigNumber.from(j % 11).mul(14n));
-      const diff = grid2R[i][j].on ? power.pow(2n) : 0n;
+      const diff = grid2R[i][j].on ? BigNumber.from(2n).pow(power) : 0n;
       if (j < 11) {
         leftPart = leftPart.add(diff);
       } else {
