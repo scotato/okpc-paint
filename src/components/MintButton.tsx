@@ -49,7 +49,8 @@ export const MintButton = () => {
   const onClick = () => {
     randomize();
     const leftPart = encode256(screencode.leftCode);
-    const rightPart = encode256(screencode.leftCode);
+    const rightPart = encode256(screencode.rightCode);
+    console.log(leftPart, rightPart);
     send(leftPart, rightPart);
   };
 
