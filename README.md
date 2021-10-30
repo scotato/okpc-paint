@@ -2,7 +2,7 @@
 
 a [tiny-83](https://tiny-83.github.io/tiny-83/) graphics application.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9c315be9-f0e9-49d3-880f-44439d1df588/deploy-status)](https://app.netlify.com/sites/0xinventory/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0144879f-0d70-4799-b8e8-c446f2b17a32/deploy-status)](https://app.netlify.com/sites/exquisite-graphics/deploys)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
