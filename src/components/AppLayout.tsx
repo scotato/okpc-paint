@@ -5,28 +5,52 @@ const style = {
   app: {
     display: "grid",
     margin: "0 auto",
-    padding: 64,
+    padding: 32,
+    gap: 32,
     maxWidth: 1800,
     minHeight: "100%",
-    gridTemplateRows: "1fr auto",
+    gridTemplateRows: "auto 1fr auto",
   },
   header: {},
   footer: {
     display: "flex",
-    marginTop: 16,
-    marginLeft: 16,
-    marginRight: 16,
-    justifyContent: "space-between",
+    justifyContent: "center",
+    gap: 32,
+    textTransform: "uppercase" as "uppercase",
   },
   title: {
+    margin: 0,
     textAlign: "center" as "center",
+    lineHeight: 1,
   },
   titleLink: {
+    margin: 0,
+    display: "block",
     fontSize: 32,
     color: colors.white,
     textDecoration: "none",
     textTransform: "uppercase" as "uppercase",
   },
+  link: {
+    margin: 0,
+    color: "white",
+    textDecoration: "none",
+  },
+};
+
+const styleGithub = {
+  ...style.link,
+  color: colors.common,
+};
+
+const styleTwitter = {
+  ...style.link,
+  color: colors.rare,
+};
+
+const styleTiny = {
+  ...style.link,
+  color: colors.uncommon,
 };
 
 function AppLayout({ children }: { children: JSX.Element }) {
@@ -41,43 +65,21 @@ function AppLayout({ children }: { children: JSX.Element }) {
       </header>
       {children}
       <footer style={style.footer}>
-        <Legend />
-        <Resources />
+        <a
+          href="https://github.com/scotato/exquisite-graphics"
+          style={styleGithub}
+        >
+          github
+        </a>
+        <a href="https://twitter.com/scotato" style={styleTwitter}>
+          twitter
+        </a>
+        <a href="https://tiny-83.github.io/tiny-83/" style={styleTiny}>
+          tiny-83
+        </a>
       </footer>
     </div>
   );
-}
-
-function Resources() {
-  const style = {
-    resources: {},
-    link: {
-      color: colors.white,
-      textDecoration: "none",
-    },
-  };
-
-  return (
-    <span style={style.resources}>
-      <Link to="/help" style={style.link}>
-        Help
-      </Link>
-    </span>
-  );
-}
-
-function Legend() {
-  const style = {
-    legend: {
-      display: "grid",
-      gridAutoFlow: "column",
-      justifyContent: "flex-start",
-      gridColumnGap: 12,
-      gridRowGap: 12,
-    },
-  };
-
-  return <span style={style.legend} className="legend"></span>;
 }
 
 export default AppLayout;
