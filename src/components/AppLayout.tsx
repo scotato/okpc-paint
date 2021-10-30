@@ -2,6 +2,7 @@ import { colors } from "../theme";
 import { Link } from "react-router-dom";
 
 import { MintButton } from "./MintButton";
+import { ConnectWalletButton } from "./ConnectWalletButton";
 
 const style = {
   app: {
@@ -82,6 +83,7 @@ function AppLayout({ children }: { children: JSX.Element }) {
       {children}
       <footer style={style.footer}>
         <Links />
+        <ConnectWalletButton />
         <MintButton />
       </footer>
     </div>

@@ -1,18 +1,18 @@
-import React from 'react';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { ENSName } from 'react-ens-name';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+import React from "react";
+import { useWallet } from "@gimmixorg/use-wallet";
+import { ENSName } from "react-ens-name";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: 'INFURA_ID' // FILL THIS IN TO ENABLE WALLET CONNECT!
-    }
-  }
+      infuraId: "INFURA_ID", // FILL THIS IN TO ENABLE WALLET CONNECT!
+    },
+  },
 };
 
-const ConnectWalletButton = () => {
+export const ConnectWalletButton = () => {
   const { connect, account } = useWallet();
   if (account) return <ENSName address={account} />;
   else
@@ -22,5 +22,3 @@ const ConnectWalletButton = () => {
       </button>
     );
 };
-
-export default ConnectWalletButton;

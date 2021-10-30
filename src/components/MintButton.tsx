@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { colors } from "../theme";
+import { useScreen } from "../hooks/useScreen";
+import { useMint, TxStatus } from "../hooks/useMint";
 
 const style = {
   button: {
@@ -38,14 +40,20 @@ const randomStyles = () => {
 };
 
 export const MintButton = () => {
+  const { send, state, encode256 } = useMint();
+  const { screencode } = useScreen();
   const [buttonStyle, setButtonStyle] = useState(randomStyles());
   const randomize = () => setButtonStyle(randomStyles());
   const onMouseEnter = () => randomize();
   const onMouseLeave = () => randomize();
   const onClick = () => {
     randomize();
-    alert("🥵 this feature isn't ready yet...");
+    const leftPart = encode256(screencode.leftCode);
+    const rightPart = encode256(screencode.leftCode);
+    send(leftPart, rightPart);
   };
+
+  console.log(state);
 
   return (
     <button
@@ -53,8 +61,33 @@ export const MintButton = () => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
+      disabled={getButtonState(state?.status)}
     >
-      mint
+      {getButtonText(state?.status)}
     </button>
   );
 };
+
+function getButtonText(status?: TxStatus) {
+  switch (status) {
+    case TxStatus.PENDING:
+      return "minting";
+    case TxStatus.COMPLETED:
+      return "minted";
+    case TxStatus.FAILED:
+      return "failed";
+    default:
+      return "mint";
+  }
+}
+
+function getButtonState(status?: TxStatus) {
+  switch (status) {
+    case TxStatus.PENDING:
+    case TxStatus.COMPLETED:
+    case TxStatus.FAILED:
+      return true;
+    default:
+      return false;
+  }
+}

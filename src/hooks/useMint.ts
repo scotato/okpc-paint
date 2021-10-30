@@ -3,11 +3,7 @@ import { TINY83__factory } from '../tiny83-sdk';
 import { useWallet } from '@gimmixorg/use-wallet';
 import { BigNumberish, utils, ContractTransaction } from 'ethers';
 
-// const price = 40000000000000000;
-// const validNetworkId = 1;
-// const initialSupply = 5555;
-
-enum TxStatus {
+export enum TxStatus {
   PENDING,
   COMPLETED,
   FAILED
@@ -15,6 +11,8 @@ enum TxStatus {
 
 export const useMint = () => {
   const { provider } = useWallet();
+  const encode256 = (val: string) => utils.defaultAbiCoder.encode(['uint256'], [val])
+  
   const contract = useMemo(
     () =>
       provider
@@ -45,5 +43,5 @@ export const useMint = () => {
     }
   };
 
-  return { send, state };
+  return { send, state, encode256 };
 };
