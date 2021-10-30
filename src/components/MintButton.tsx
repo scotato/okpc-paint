@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useWallet } from "@gimmixorg/use-wallet";
 import { colors } from "../theme";
 import { useScreen } from "../hooks/useScreen";
 import { useMint, TxStatus } from "../hooks/useMint";
@@ -40,6 +41,7 @@ const randomStyles = () => {
 };
 
 export const MintButton = () => {
+  const { account } = useWallet();
   const { send, state, encode256 } = useMint();
   const { screencode } = useScreen();
   const [buttonStyle, setButtonStyle] = useState(randomStyles());
@@ -63,7 +65,7 @@ export const MintButton = () => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
-      disabled={getButtonState(state?.status)}
+      disabled={!account || getButtonState(state?.status)}
     >
       {getButtonText(state?.status)}
     </button>

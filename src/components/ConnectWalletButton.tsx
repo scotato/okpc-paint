@@ -1,4 +1,3 @@
-import React from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 import { ENSName } from "react-ens-name";
 import WalletConnectProvider from "@walletconnect/web3-provider";
