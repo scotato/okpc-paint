@@ -1,14 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import { ChainId, DAppProvider, Config } from "@usedapp/core";
+import "./index.css";
+import App from "./components/App";
+import reportWebVitals from "./reportWebVitals";
+
+const config: Config = {
+  readOnlyChainId: ChainId.Mainnet,
+  readOnlyUrls: {
+    [ChainId.Mainnet]: "https://mainnet.infura.io/v3/abc",
+  },
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

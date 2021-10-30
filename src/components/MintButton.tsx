@@ -42,7 +42,10 @@ export const MintButton = () => {
   const randomize = () => setButtonStyle(randomStyles());
   const onMouseEnter = () => randomize();
   const onMouseLeave = () => randomize();
-  const onClick = () => randomize();
+  const onClick = () => {
+    randomize();
+    alert("🥵 this feature isn't ready yet...");
+  };
 
   return (
     <button

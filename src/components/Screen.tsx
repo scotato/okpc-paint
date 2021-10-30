@@ -68,7 +68,7 @@ export const Screen = () => {
           />
         );
       })}
-      <rect
+      {/* <rect
         width="3"
         height="3"
         x={WIDTH - 3}
@@ -81,7 +81,7 @@ export const Screen = () => {
         x={WIDTH - 2}
         y={HEIGHT - 2}
         style={style.on}
-      />
+      /> */}
     </svg>
   );
 };
