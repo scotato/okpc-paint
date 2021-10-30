@@ -3,25 +3,25 @@ import { Link } from "react-router-dom";
 
 const style = {
   app: {
-    display: "grid",
+    display: "flex",
     margin: "0 auto",
     padding: 32,
     gap: 32,
     maxWidth: 1800,
-    minHeight: "100%",
-    gridTemplateRows: "auto 1fr auto",
+    height: "100vh",
+    flexDirection: "column" as "column",
   },
   header: {},
   footer: {
     display: "flex",
     justifyContent: "center",
-    gap: 32,
     textTransform: "uppercase" as "uppercase",
+    gap: 32,
   },
   title: {
     margin: 0,
     textAlign: "center" as "center",
-    lineHeight: 1,
+    lineHeight: 1.2,
   },
   titleLink: {
     margin: 0,
@@ -59,7 +59,9 @@ function AppLayout({ children }: { children: JSX.Element }) {
       <header style={style.header}>
         <h1 style={style.title}>
           <Link to="/" style={style.titleLink}>
-            exquisite graphics
+            exquisite
+            <br />
+            graphics
           </Link>
         </h1>
       </header>

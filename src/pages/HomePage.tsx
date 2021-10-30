@@ -1,12 +1,7 @@
-const style = {
-  page: {
-    display: "flex",
-    flexDirection: "column" as "column",
-  },
-};
+import { Screen } from "../components/Screen";
 
 function HomePage() {
-  return <div style={style.page}></div>;
+  return <Screen />;
 }
 
 export default HomePage;
