@@ -1,18 +1,49 @@
-import { Contract } from '@ethersproject/contracts'
-import { useContractFunction } from '@usedapp/core'
-import { utils } from 'ethers'
-// import { useScreen } from './useScreen'
-import { abi, address } from '../contract'
+import { useMemo, useState } from 'react';
+import { TINY83__factory } from '../tiny83-sdk';
+import { useWallet } from '@gimmixorg/use-wallet';
+import { BigNumberish, utils, ContractTransaction } from 'ethers';
 
 // const price = 40000000000000000;
 // const validNetworkId = 1;
 // const initialSupply = 5555;
 
-export const useMint = () => {
-  // const { pixelsMatrix } = useScreen()
-  const contractInterface = new utils.Interface(abi)
-  const contract = new Contract(address, contractInterface)
-  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-
-  return { send, state }
+enum TxStatus {
+  PENDING,
+  COMPLETED,
+  FAILED
 }
+
+export const useMint = () => {
+  const { provider } = useWallet();
+  const contract = useMemo(
+    () =>
+      provider
+        ? TINY83__factory.connect(
+            '0x7deb38a22694608a58b28970320d39ee50e7bc0f',
+            provider.getSigner()
+          )
+        : null,
+    [provider]
+  );
+
+  const [state, setState] =
+    useState<{ status: TxStatus; hash?: string; error?: string }>();
+
+  const send = async (leftPart: BigNumberish, rightPart: BigNumberish) => {
+    if (!provider) throw new Error('No provider');
+    if (!contract) throw new Error('Contract not initialized');
+    let tx: ContractTransaction;
+    try {
+      tx = await contract.mint(leftPart, rightPart, {
+        value: utils.parseEther('0.04')
+      });
+      setState({ status: TxStatus.PENDING, hash: tx.hash });
+      await tx.wait();
+      setState({ status: TxStatus.COMPLETED, hash: tx.hash });
+    } catch (error) {
+      setState({ status: TxStatus.FAILED, error: error as string });
+    }
+  };
+
+  return { send, state };
+};
