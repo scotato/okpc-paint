@@ -1,5 +1,6 @@
 {
   "name": "exquisite-graphics",
+  "description": "a tiny-83 graphics editor",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
