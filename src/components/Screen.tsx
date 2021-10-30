@@ -29,9 +29,11 @@ const style = {
 };
 
 export const Screen = () => {
-  const { pixels, togglePixel, setHovered } = useScreen();
-  const onMouseEnter = (pixel: Pixel) => () => setHovered(pixel, true);
-  const onMouseLeave = (pixel: Pixel) => () => setHovered(pixel, false);
+  const { pixels, togglePixel, onPixelDown, onPixelEnter, onPixelLeave } =
+    useScreen();
+  const onMouseDown = (pixel: Pixel) => () => onPixelDown(pixel);
+  const onMouseEnter = (pixel: Pixel) => () => onPixelEnter(pixel);
+  const onMouseLeave = (pixel: Pixel) => () => onPixelLeave(pixel);
   const onPixelClick = (pixel: Pixel) => () => togglePixel(pixel);
 
   return (
@@ -54,6 +56,7 @@ export const Screen = () => {
             onClick={onPixelClick(pixel)}
             onMouseEnter={onMouseEnter(pixel)}
             onMouseLeave={onMouseLeave(pixel)}
+            onMouseDown={onMouseDown(pixel)}
             style={pixelStyle}
           />
         );

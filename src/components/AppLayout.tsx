@@ -22,7 +22,9 @@ const style = {
     userSelect: "none" as "none",
   },
   title: {
+    display: "flex",
     margin: 0,
+    justifyContent: "center" as "center",
     textAlign: "center" as "center",
     lineHeight: 1.2,
   },
