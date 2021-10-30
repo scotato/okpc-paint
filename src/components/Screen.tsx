@@ -12,6 +12,9 @@ const styleCell = {
 
 const style = {
   screen: {
+    margin: "0 auto",
+  },
+  background: {
     fill: grayscale[10],
   },
   on: {
@@ -37,8 +40,12 @@ export const Screen = () => {
   const onPixelClick = (pixel: Pixel) => () => togglePixel(pixel);
 
   return (
-    <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} xmlns="http://www.w3.org/2000/svg">
-      <rect width={WIDTH} height={HEIGHT} style={style.screen} />
+    <svg
+      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      xmlns="http://www.w3.org/2000/svg"
+      style={style.screen}
+    >
+      <rect width={WIDTH} height={HEIGHT} style={style.background} />
       {pixels.map((pixel, i) => {
         const pixelStyle = pixel.on
           ? style.on
@@ -66,7 +73,7 @@ export const Screen = () => {
         height="3"
         x={WIDTH - 3}
         y={HEIGHT - 3}
-        style={style.screen}
+        style={style.background}
       />
       <rect
         width="1"

@@ -1,6 +1,8 @@
 import { colors } from "../theme";
 import { Link } from "react-router-dom";
 
+import { MintButton } from "./MintButton";
+
 const style = {
   app: {
     display: "flex",
@@ -16,10 +18,17 @@ const style = {
   },
   footer: {
     display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textTransform: "uppercase" as "uppercase",
+    userSelect: "none" as "none",
+    gap: 32,
+  },
+  links: {
+    display: "flex",
     justifyContent: "center",
     textTransform: "uppercase" as "uppercase",
     gap: 32,
-    userSelect: "none" as "none",
   },
   title: {
     display: "flex",
@@ -72,21 +81,30 @@ function AppLayout({ children }: { children: JSX.Element }) {
       </header>
       {children}
       <footer style={style.footer}>
-        <a
-          href="https://github.com/scotato/exquisite-graphics"
-          style={styleGithub}
-        >
-          github
-        </a>
-        <a href="https://twitter.com/scotato" style={styleTwitter}>
-          twitter
-        </a>
-        <a href="https://tiny-83.github.io/tiny-83/" style={styleTiny}>
-          tiny-83
-        </a>
+        <Links />
+        <MintButton />
       </footer>
     </div>
   );
 }
+
+const Links = () => {
+  return (
+    <div style={style.links}>
+      <a
+        href="https://github.com/scotato/exquisite-graphics"
+        style={styleGithub}
+      >
+        github
+      </a>
+      <a href="https://twitter.com/scotato" style={styleTwitter}>
+        twitter
+      </a>
+      <a href="https://tiny-83.github.io/tiny-83/" style={styleTiny}>
+        tiny-83
+      </a>
+    </div>
+  );
+};
 
 export default AppLayout;
