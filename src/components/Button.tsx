@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef, ButtonHTMLAttributes } from "react";
+import { useInterval } from "../hooks/useInterval";
 import { colors } from "../theme";
 
 const style = {
@@ -45,9 +46,21 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ seed, ...props }, ref) => {
     const [buttonStyle, setButtonStyle] = useState(randomStyles());
+    const [hovered, setHovered] = useState(false);
+    const { count } = useInterval(200);
     const randomize = () => setButtonStyle(randomStyles());
-    const onMouseEnter = () => randomize();
-    const onMouseLeave = () => randomize();
+    const onMouseEnter = () => {
+      setHovered(true);
+      randomize();
+    };
+    const onMouseLeave = () => {
+      setHovered(false);
+      randomize();
+    };
+
+    useEffect(() => {
+      if (hovered) randomize();
+    }, [hovered, count]);
 
     useEffect(randomize, [seed]);
 
