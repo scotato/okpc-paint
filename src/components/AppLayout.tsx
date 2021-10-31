@@ -22,12 +22,12 @@ const style = {
     alignItems: "center",
     justifyContent: "center",
     userSelect: "none" as "none",
+    fontWeight: 600,
     gap: 32,
   },
   links: {
     display: "flex",
     justifyContent: "center",
-    textTransform: "uppercase" as "uppercase",
     gap: 32,
   },
   title: {
