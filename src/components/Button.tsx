@@ -13,6 +13,7 @@ const style = {
     willChange: "background-color, border-radius",
     transition:
       "100ms ease-in-out background-color, 100ms ease-in-out border-radius",
+    fontWeight: 600,
   },
 };
 

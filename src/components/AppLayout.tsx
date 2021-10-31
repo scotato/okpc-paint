@@ -21,7 +21,6 @@ const style = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    textTransform: "uppercase" as "uppercase",
     userSelect: "none" as "none",
     gap: 32,
   },

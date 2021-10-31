@@ -33,6 +33,11 @@ body,
   height: 100%;
 }
 
+footer,
+.web3modal-modal-card {
+  text-transform: lowercase;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
