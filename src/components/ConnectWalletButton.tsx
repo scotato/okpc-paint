@@ -8,7 +8,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: "INFURA_ID", // FILL THIS IN TO ENABLE WALLET CONNECT!
+      infuraId: "1a9ea31c95f044869eb21e3ef97acb14",
     },
   },
 };

@@ -47,14 +47,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [hovered, setHovered] = useState(false);
     const { count } = useInterval(200);
     const randomize = () => setButtonStyle(randomStyles());
-    const onMouseEnter = () => {
-      setHovered(true);
-      randomize();
-    };
-    const onMouseLeave = () => {
-      setHovered(false);
-      randomize();
-    };
+    const onMouseEnter = () => setHovered(true);
+    const onMouseLeave = () => setHovered(false);
 
     useEffect(() => {
       if (hovered) randomize();
