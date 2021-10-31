@@ -2,6 +2,8 @@ import { useWallet } from "@gimmixorg/use-wallet";
 import { ENSName } from "react-ens-name";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
+import { Button } from "./Button";
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
@@ -16,8 +18,6 @@ export const ConnectWalletButton = () => {
   if (account) return <ENSName address={account} />;
   else
     return (
-      <button onClick={() => connect({ providerOptions })}>
-        Connect Wallet
-      </button>
+      <Button onClick={() => connect({ providerOptions })}>connect</Button>
     );
 };
