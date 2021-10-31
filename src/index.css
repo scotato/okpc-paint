@@ -36,6 +36,8 @@ body,
 footer,
 .web3modal-modal-card {
   text-transform: lowercase;
+  letter-spacing: -0.5px;
+  font-weight: 600;
 }
 
 ul {
