@@ -1,8 +1,9 @@
 import { grayscale } from "../theme";
 import { useScreen } from "../hooks/useScreen";
 
-const WIDTH = 22;
-const HEIGHT = 14;
+export const SCREENWIDTH = 22;
+export const SCREENHEIGHT = 14;
+export const ASPECTRATIO = SCREENWIDTH / SCREENHEIGHT;
 
 const styleCell = {
   cursor: "pointer",
@@ -12,18 +13,19 @@ const styleCell = {
 
 const style = {
   screen: {
+    display: "block",
     margin: "0 auto",
   },
   background: {
-    fill: grayscale[10],
+    fill: grayscale[15],
   },
   on: {
     ...styleCell,
-    fill: grayscale[90],
+    fill: grayscale[25],
   },
   off: {
     ...styleCell,
-    fill: grayscale[10],
+    fill: grayscale[75],
   },
   hover: {
     ...styleCell,
@@ -41,11 +43,15 @@ export const Screen = () => {
 
   return (
     <svg
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      viewBox={`0 0 ${SCREENWIDTH} ${SCREENHEIGHT}`}
       xmlns="http://www.w3.org/2000/svg"
       style={style.screen}
     >
-      <rect width={WIDTH} height={HEIGHT} style={style.background} />
+      <rect
+        width={SCREENWIDTH}
+        height={SCREENHEIGHT}
+        style={style.background}
+      />
       {pixels.map((pixel, i) => {
         const pixelStyle = pixel.on
           ? style.on
@@ -69,17 +75,17 @@ export const Screen = () => {
         );
       })}
       {/* <rect
-        width="3"
-        height="3"
-        x={WIDTH - 3}
-        y={HEIGHT - 3}
+        SCREENwidth="3"
+        SCREENheight="3"
+        x={SCREENWIDTH - 3}
+        y={SCREENHEIGHT - 3}
         style={style.background}
       />
       <rect
-        width="1"
-        height="1"
-        x={WIDTH - 2}
-        y={HEIGHT - 2}
+        SCREENwidth="1"
+        SCREENheight="1"
+        x={SCREENWIDTH - 2}
+        y={SCREENHEIGHT - 2}
         style={style.on}
       /> */}
     </svg>

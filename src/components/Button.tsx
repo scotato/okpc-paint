@@ -9,6 +9,7 @@ const style = {
     padding: "12px 16px",
     fontSize: 20,
     lineHeight: 1,
+    height: 48,
     fontFamily: "inherit",
     cursor: "pointer",
     willChange: "background-color, border-radius",
@@ -28,13 +29,10 @@ const backgroundColors = [
   colors.mythic,
 ];
 
-const flipCoin = () => Math.round(Math.random());
-const randomRadius = () => (flipCoin() ? "16px" : "0px");
-
 const randomStyles = () => {
   return {
     ...style.button,
-    borderRadius: `${randomRadius()} ${randomRadius()} ${randomRadius()} ${randomRadius()}`,
+    borderBottomRightRadius: 16,
     backgroundColor: randomItem(backgroundColors),
   };
 };
