@@ -36,7 +36,7 @@ const getStyle = ({ width, height, isLandscape }: StyleProps) => ({
     justifyContent: "space-between",
     flexDirection: isLandscape ? ("row" as "row") : ("column" as "column"),
     userSelect: "none" as "none",
-    backgroundColor: grayscale[15],
+    backgroundColor: grayscale[20],
     padding: 16,
     fontWeight: 600,
     gap: 32,
@@ -59,7 +59,7 @@ const getStyle = ({ width, height, isLandscape }: StyleProps) => ({
   link: {
     margin: 0,
     fontSize: 16,
-    color: grayscale[30],
+    color: grayscale[50],
     textDecoration: "none",
   },
 });
