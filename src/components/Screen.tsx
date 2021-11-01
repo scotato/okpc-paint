@@ -23,8 +23,8 @@ export const Screen = () => {
         return (
           <Pixel
             key={i}
-            width={1.01}
-            height={1.01}
+            width={1.1}
+            height={1.1}
             x={pixel.x}
             y={pixel.y}
             onClick={onPixelClick(pixel)}
