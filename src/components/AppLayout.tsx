@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { MintButton } from "./MintButton";
 import { ConnectWalletButton } from "./ConnectWalletButton";
+import { rainbow } from "../theme";
 
 function AppLayout({ children }: { children: JSX.Element }) {
   return (
@@ -89,6 +90,10 @@ const AppLink = styled(Link)`
   color: ${(props) => props.theme.grayscale[50]};
   text-decoration: none;
   text-transform: uppercase;
+
+  &:hover {
+    animation: ${rainbow("color")} 2s linear infinite;
+  }
 `;
 
 const AppLinkExternal = styled.a`
@@ -97,6 +102,10 @@ const AppLinkExternal = styled.a`
   color: ${(props) => props.theme.grayscale[50]};
   text-decoration: none;
   text-transform: uppercase;
+
+  &:hover {
+    animation: ${rainbow("color")} 2s linear infinite;
+  }
 `;
 
 export default AppLayout;

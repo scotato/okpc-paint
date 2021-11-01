@@ -1,53 +1,16 @@
-import { useState, useEffect, forwardRef, ButtonHTMLAttributes } from "react";
-import styled, { useTheme } from "styled-components";
-import { useInterval } from "../hooks/useInterval";
-
-const randomItem = (items: string[]) =>
-  items[Math.floor(Math.random() * items.length)];
-
-const randomColor = (
-  colors: { [key: string]: string },
-  color: string
-): string => {
-  const colorsFiltered = Object.values(colors).filter(
-    (c) => c !== colors["common"]
-  );
-  const newColor = randomItem(colorsFiltered);
-  if (color !== newColor) return newColor;
-  return randomColor(colors, color);
-};
+import { forwardRef, ButtonHTMLAttributes } from "react";
+import styled from "styled-components";
+import { rainbow } from "../theme";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
-    const { colors, grayscale } = useTheme();
-    const [hovered, setHovered] = useState(false);
-    const [color, setColor] = useState("");
-    const { count } = useInterval(250);
-    const onMouseEnter = () => setHovered(true);
-    const onMouseLeave = () => setHovered(false);
-    const backgroundColor = hovered ? color : grayscale[75];
-
-    useEffect(() => {
-      if (hovered) setColor(randomColor(colors, color));
-      // eslint-disable-next-line
-    }, [count, hovered]);
-
-    return (
-      <ButtonStyled
-        style={{ backgroundColor, color: grayscale[15] }}
-        ref={ref}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        hovered={hovered}
-        {...props}
-      />
-    );
+    return <ButtonStyled ref={ref} {...props} />;
   }
 );
 
-const ButtonStyled = styled.button<{ hovered: boolean }>`
+const ButtonStyled = styled.button`
   margin: 0;
   border: 0;
   padding: 12px 16px;
@@ -63,4 +26,10 @@ const ButtonStyled = styled.button<{ hovered: boolean }>`
   text-transform: uppercase;
   border-top-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  background-color: ${(props) => props.theme.grayscale[75]};
+  color: ${(props) => props.theme.grayscale[15]};
+
+  &:hover {
+    animation: ${rainbow("background-color")} 2s linear infinite;
+  }
 `;

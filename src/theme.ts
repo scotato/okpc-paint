@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme, keyframes } from 'styled-components'
 
 export const colors = {
   common: "hsl(0deg 0% 50%)",
@@ -72,6 +72,32 @@ export function grayscaleTint (hue: number = 0) {
     95: `hsl(${hue}deg 75% 93%)`,
   }
 }
+
+export const rainbow = (key: string) => keyframes`
+  from {
+    ${key}: ${colors.uncommon};
+  }
+
+  20% {
+    ${key}: ${colors.rare};
+  }
+
+  40% {
+    ${key}: ${colors.epic};
+  }
+
+  60% {
+    ${key}: ${colors.legendary};
+  }
+
+  80% {
+    ${key}: ${colors.mythic};
+  }
+
+  to {
+    ${key}: ${colors.uncommon};
+  }
+`;
 
 export type Hue = keyof typeof hues
 export type Color = keyof typeof colors
