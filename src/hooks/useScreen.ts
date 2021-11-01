@@ -2,9 +2,13 @@ import create from 'zustand'
 import { useEffect } from 'react'
 import { BigNumber } from 'ethers';
 
+export const SCREENWIDTH = 22;
+export const SCREENHEIGHT = 14;
+
 type ScreenState = {
   width: number
   height: number
+  aspectRatio: number
   pixels: Pixel[][]
   isMouseDown: boolean
   isErasing: boolean
@@ -12,8 +16,9 @@ type ScreenState = {
 }
 
 const useStore = create(set => {
-  const width = 22
-  const height = 14
+  const width = SCREENWIDTH
+  const height = SCREENHEIGHT
+  const aspectRatio = width / height
   const lastPixelDown = undefined as (undefined | Pixel);
   const pixels = Array.from({ length: height }, (v, y) => {
     return Array.from({ length: width }, (v, x) => {
@@ -35,6 +40,7 @@ const useStore = create(set => {
   return {
     width,
     height,
+    aspectRatio,
     pixels,
     updatePixel,
     lastPixelDown,

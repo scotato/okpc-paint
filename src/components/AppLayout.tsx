@@ -1,101 +1,102 @@
-import { grayscale } from "../theme";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { useWindow } from "../hooks/useWindow";
 import { Logo } from "./Logo";
-import { ASPECTRATIO } from "./Screen";
 import { MintButton } from "./MintButton";
 import { ConnectWalletButton } from "./ConnectWalletButton";
 
-interface StyleProps {
-  width: number;
-  height: number;
-  isLandscape: boolean;
-}
-
-const getStyle = ({ width, height, isLandscape }: StyleProps) => ({
-  app: {
-    display: "grid",
-    margin: "0 auto",
-    padding: 32,
-    maxWidth: 1800,
-    height: "100vh",
-    placeContent: "center",
-  },
-  container: {
-    overflow: "hidden",
-    borderRadius: 32,
-    minWidth: isLandscape ? (height - 64 - 82) * ASPECTRATIO : width - 64,
-    maxWidth: isLandscape ? (height - 64 - 82) * ASPECTRATIO : "100%",
-    minHeight: isLandscape ? height - 64 : width - 64,
-    maxHeight: height - 64,
-  },
-  footer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: isLandscape ? ("row" as "row") : ("column" as "column"),
-    userSelect: "none" as "none",
-    backgroundColor: grayscale[20],
-    padding: 16,
-    fontWeight: 600,
-    gap: 32,
-  },
-  links: {
-    display: "flex",
-    justifyContent: "center",
-    gap: 32,
-  },
-  title: {
-    display: "flex",
-    margin: 0,
-    justifyContent: "center" as "center",
-    textAlign: "center" as "center",
-    lineHeight: 1.2,
-  },
-  logo: {
-    height: 48,
-  },
-  link: {
-    margin: 0,
-    fontSize: 16,
-    color: grayscale[50],
-    textDecoration: "none",
-  },
-});
-
 function AppLayout({ children }: { children: JSX.Element }) {
-  const { width, height, isLandscape } = useWindow();
-  const style = getStyle({ width, height, isLandscape });
-
   return (
-    <div style={style.app} className="app-layout">
-      <div style={style.container}>
+    <AppContainer>
+      <AppBody>
         {children}
-        <footer style={style.footer}>
-          <Link to="/" style={style.link}>
-            <Logo style={style.logo} />
-          </Link>
-          <div style={style.links}>
-            <a
-              href="https://github.com/scotato/exquisite-graphics"
-              style={style.link}
-            >
+        <AppFooter>
+          <AppLink to="/">
+            <AppLogo />
+          </AppLink>
+          <AppLinks>
+            {/* <AppLink to="/help">help</AppLink> */}
+            <AppLinkExternal href="https://github.com/scotato/exquisite-graphics">
               github
-            </a>
-            <a href="https://twitter.com/scotato" style={style.link}>
+            </AppLinkExternal>
+            <AppLinkExternal href="https://twitter.com/scotato">
               twitter
-            </a>
-            <a href="https://tiny-83.github.io/tiny-83/" style={style.link}>
+            </AppLinkExternal>
+            <AppLinkExternal href="https://tiny-83.github.io/tiny-83/">
               tiny-83
-            </a>
-          </div>
+            </AppLinkExternal>
+          </AppLinks>
           <ConnectWalletButton />
           <MintButton />
-        </footer>
-      </div>
-    </div>
+        </AppFooter>
+      </AppBody>
+    </AppContainer>
   );
 }
+
+const AppContainer = styled.div`
+  display: grid;
+  margin: 0 auto;
+  padding: 32px;
+  max-width: 1600px;
+  height: 100vh;
+  place-content: center;
+`;
+
+const AppBody = styled.div`
+  overflow: hidden;
+  border-radius: 24px;
+  min-width: ${({ theme }) =>
+    theme.window.isLandscape
+      ? (theme.window.height - 64 - 82) * theme.screen.aspectRatio
+      : theme.window.width - 64}px;
+  max-width: ${({ theme }) =>
+    theme.window.isLandscape
+      ? (theme.window.height - 64 - 82) * theme.screen.aspectRatio
+      : theme.window.width}px;
+  min-height: ${({ theme }) =>
+    theme.window.isLandscape
+      ? theme.window.height - 64
+      : theme.window.width - 64}px;
+  max-height: ${({ theme }) => theme.window.height - 64}px;
+`;
+
+const AppFooter = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: ${(props) =>
+    props.theme.window.isLandscape ? "row" : "column"};
+  background-color: ${(props) => props.theme.grayscale[20]};
+  padding: 16px;
+  font-weight: 600;
+  gap: 32px;
+`;
+
+const AppLinks = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+`;
+
+const AppLogo = styled(Logo)`
+  height: 48px;
+`;
+
+const AppLink = styled(Link)`
+  margin: 0;
+  fontsize: 20px;
+  color: ${(props) => props.theme.grayscale[50]};
+  text-decoration: none;
+  text-transform: uppercase;
+`;
+
+const AppLinkExternal = styled.a`
+  margin: 0;
+  font-size: 20px;
+  color: ${(props) => props.theme.grayscale[50]};
+  text-decoration: none;
+  text-transform: uppercase;
+`;
 
 export default AppLayout;

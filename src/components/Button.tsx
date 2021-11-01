@@ -1,69 +1,66 @@
 import { useState, useEffect, forwardRef, ButtonHTMLAttributes } from "react";
+import styled, { useTheme } from "styled-components";
 import { useInterval } from "../hooks/useInterval";
-import { colors } from "../theme";
-
-const style = {
-  button: {
-    margin: 0,
-    border: 0,
-    padding: "12px 16px",
-    fontSize: 20,
-    lineHeight: 1,
-    height: 48,
-    fontFamily: "inherit",
-    cursor: "pointer",
-    willChange: "background-color, border-radius",
-    transition:
-      "100ms ease-in-out background-color, 100ms ease-in-out border-radius",
-    fontWeight: 600,
-  },
-};
 
 const randomItem = (items: string[]) =>
   items[Math.floor(Math.random() * items.length)];
-const backgroundColors = [
-  colors.uncommon,
-  colors.rare,
-  colors.epic,
-  colors.legendary,
-  colors.mythic,
-];
 
-const randomStyles = () => {
-  return {
-    ...style.button,
-    borderBottomRightRadius: 16,
-    backgroundColor: randomItem(backgroundColors),
-  };
+const randomColor = (
+  colors: { [key: string]: string },
+  color: string
+): string => {
+  const colorsFiltered = Object.values(colors).filter(
+    (c) => c !== colors["common"]
+  );
+  const newColor = randomItem(colorsFiltered);
+  if (color !== newColor) return newColor;
+  return randomColor(colors, color);
 };
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  seed?: number;
-}
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ seed, ...props }, ref) => {
-    const [buttonStyle, setButtonStyle] = useState(randomStyles());
+  (props, ref) => {
+    const { colors, grayscale } = useTheme();
     const [hovered, setHovered] = useState(false);
-    const { count } = useInterval(200);
-    const randomize = () => setButtonStyle(randomStyles());
+    const [color, setColor] = useState("");
+    const { count } = useInterval(250);
     const onMouseEnter = () => setHovered(true);
     const onMouseLeave = () => setHovered(false);
+    const backgroundColor = hovered ? color : grayscale[75];
 
     useEffect(() => {
-      if (hovered) randomize();
-    }, [hovered, count]);
-
-    useEffect(randomize, [seed]);
+      if (hovered) setColor(randomColor(colors, color));
+      // eslint-disable-next-line
+    }, [count, hovered]);
 
     return (
-      <button
-        style={buttonStyle}
+      <ButtonStyled
+        style={{ backgroundColor, color: grayscale[15] }}
         ref={ref}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        hovered={hovered}
         {...props}
       />
     );
   }
 );
+
+const ButtonStyled = styled.button<{ hovered: boolean }>`
+  margin: 0;
+  border: 0;
+  padding: 12px 16px;
+  font-size: 20px;
+  line-height: 1;
+  height: 48px;
+  font-family: inherit;
+  cursor: pointer;
+  will-change: background-color, border-radius;
+  transition: 250ms ease-in-out background-color,
+    250ms ease-in-out border-radius;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+`;

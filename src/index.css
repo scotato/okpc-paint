@@ -3,7 +3,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: hsl(215deg 50% 7%);
+  background: hsl(0deg 0% 7%);
   color: white;
   min-height: 100%;
   font-size: 20px;
@@ -52,30 +52,4 @@ h4,
 h5,
 h6 {
   margin-bottom: 0;
-}
-
-@media only screen and (max-width: 600px) {
-  .app-layout {
-    padding: 16px 8px !important;
-  }
-
-  .bag {
-    height: auto !important;
-    padding-bottom: 25% !important;
-  }
-
-  .legend {
-    grid-auto-flow: row !important;
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  .bag-footer {
-    flex-direction: column !important;
-  }
-
-  .bag-container p,
-  .bag-container a {
-    margin-bottom: 8px;
-  }
 }
