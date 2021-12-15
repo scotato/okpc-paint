@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { Logo } from "./Logo";
-import { MintButton } from "./MintButton";
-import { ConnectWalletButton } from "./ConnectWalletButton";
-import { rainbow } from "../theme";
+import { ExportButton } from "./ExportButton";
+// import { rainbow } from "../theme";
 
 function AppLayout({ children }: { children: JSX.Element }) {
   return (
@@ -12,11 +11,9 @@ function AppLayout({ children }: { children: JSX.Element }) {
       <AppBody>
         {children}
         <AppFooter>
-          <AppLink to="/">
-            <AppLogo />
-          </AppLink>
-          <AppLinks>
-            {/* <AppLink to="/help">help</AppLink> */}
+          <AppLogo />
+          {/* <AppLinks>
+            <AppLink to="/help">help</AppLink>
             <AppLinkExternal href="https://github.com/scotato/exquisite-graphics">
               github
             </AppLinkExternal>
@@ -26,9 +23,8 @@ function AppLayout({ children }: { children: JSX.Element }) {
             <AppLinkExternal href="https://tiny-83.github.io/tiny-83/">
               tiny-83
             </AppLinkExternal>
-          </AppLinks>
-          <ConnectWalletButton />
-          <MintButton />
+          </AppLinks> */}
+          <ExportButton />
         </AppFooter>
       </AppBody>
     </AppContainer>
@@ -46,7 +42,6 @@ const AppContainer = styled.div`
 
 const AppBody = styled.div`
   overflow: hidden;
-  border-radius: 24px;
   min-width: ${({ theme }) =>
     theme.window.isLandscape
       ? (theme.window.height - 64 - 82) * theme.screen.aspectRatio
@@ -74,38 +69,39 @@ const AppFooter = styled.footer`
   gap: 32px;
 `;
 
-const AppLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-`;
+// const AppLinks = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 32px;
+// `;
 
 const AppLogo = styled(Logo)`
   height: 48px;
+  padding: 0 8px;
 `;
 
-const AppLink = styled(Link)`
-  margin: 0;
-  fontsize: 20px;
-  color: ${(props) => props.theme.grayscale[50]};
-  text-decoration: none;
-  text-transform: uppercase;
+// const AppLink = styled(Link)`
+//   margin: 0;
+//   fontsize: 20px;
+//   color: ${(props) => props.theme.grayscale[50]};
+//   text-decoration: none;
+//   text-transform: uppercase;
 
-  &:hover {
-    animation: ${rainbow("color")} 2s linear infinite;
-  }
-`;
+//   &:hover {
+//     animation: ${rainbow("color")} 2s linear infinite;
+//   }
+// `;
 
-const AppLinkExternal = styled.a`
-  margin: 0;
-  font-size: 20px;
-  color: ${(props) => props.theme.grayscale[50]};
-  text-decoration: none;
-  text-transform: uppercase;
+// const AppLinkExternal = styled.a`
+//   margin: 0;
+//   font-size: 20px;
+//   color: ${(props) => props.theme.grayscale[50]};
+//   text-decoration: none;
+//   text-transform: uppercase;
 
-  &:hover {
-    animation: ${rainbow("color")} 2s linear infinite;
-  }
-`;
+//   &:hover {
+//     animation: ${rainbow("color")} 2s linear infinite;
+//   }
+// `;
 
 export default AppLayout;

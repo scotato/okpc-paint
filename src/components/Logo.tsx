@@ -1,4 +1,4 @@
-import { ReactComponent as SVG } from "../images/xqst-gfx.svg";
+import { ReactComponent as SVG } from "../images/okpc-logo.svg";
 
 interface LogoProps extends React.SVGProps<SVGSVGElement> {}
 

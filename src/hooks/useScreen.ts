@@ -1,41 +1,42 @@
-import create from 'zustand'
-import { useEffect } from 'react'
-import { BigNumber } from 'ethers';
-
-export const SCREENWIDTH = 22;
-export const SCREENHEIGHT = 14;
+import create from "zustand";
+import { useEffect } from "react";
+import { BigNumber } from "ethers";
+export const SCREENWIDTH = 24;
+export const SCREENHEIGHT = 16;
 
 type ScreenState = {
-  width: number
-  height: number
-  aspectRatio: number
-  pixels: Pixel[][]
-  isMouseDown: boolean
-  isErasing: boolean
-  lastPixelDown?: Pixel
-}
+  width: number;
+  height: number;
+  aspectRatio: number;
+  pixels: Pixel[][];
+  isMouseDown: boolean;
+  isErasing: boolean;
+  lastPixelDown?: Pixel;
+};
 
-const useStore = create(set => {
-  const width = SCREENWIDTH
-  const height = SCREENHEIGHT
-  const aspectRatio = width / height
-  const lastPixelDown = undefined as (undefined | Pixel);
+const useStore = create((set) => {
+  const width = SCREENWIDTH;
+  const height = SCREENHEIGHT;
+  const aspectRatio = width / height;
+  const lastPixelDown = undefined as undefined | Pixel;
   const pixels = Array.from({ length: height }, (v, y) => {
     return Array.from({ length: width }, (v, x) => {
-      return { x, y , on: false } as Pixel
-  })})
+      return { x, y, on: false } as Pixel;
+    });
+  });
 
-  const updatePixel = (pixel: Pixel, update: Pixel) => set((state: ScreenState) => ({ 
-    pixels: state.pixels.map((v, y) => {
-      return state.pixels[y].map((v, x) => {
-        const px = state.pixels[y][x]
-        const isY = y === pixel.y
-        const isX = x === pixel.x
-        if (isY && isX) return update
-        return px
-      })
-    })
-  }))
+  const updatePixel = (pixel: Pixel, update: Pixel) =>
+    set((state: ScreenState) => ({
+      pixels: state.pixels.map((v, y) => {
+        return state.pixels[y].map((v, x) => {
+          const px = state.pixels[y][x];
+          const isY = y === pixel.y;
+          const isX = x === pixel.x;
+          if (isY && isX) return update;
+          return px;
+        });
+      }),
+    }));
 
   return {
     width,
@@ -46,44 +47,59 @@ const useStore = create(set => {
     lastPixelDown,
     isErasing: false,
     isMouseDown: false,
-    setLastPixelDown: (pixel: Pixel) => set((state: ScreenState) => ({ lastPixelDown: pixel })),
-    togglePixel: (pixel: Pixel) => updatePixel(pixel, { ...pixel, on: !pixel.on }),
-    setHovered: (pixel: Pixel, hovered: boolean) => updatePixel(pixel, { ...pixel, hovered }),
-    setMouseDown: (isMouseDown: boolean) => set((state: ScreenState) => ({ isMouseDown }))
-  }
-})
+    setLastPixelDown: (pixel: Pixel) =>
+      set((state: ScreenState) => ({ lastPixelDown: pixel })),
+    togglePixel: (pixel: Pixel) =>
+      updatePixel(pixel, { ...pixel, on: !pixel.on }),
+    setHovered: (pixel: Pixel, hovered: boolean) =>
+      updatePixel(pixel, { ...pixel, hovered }),
+    setMouseDown: (isMouseDown: boolean) =>
+      set((state: ScreenState) => ({ isMouseDown })),
+  };
+});
 
 export const useScreen = () => {
-  const store = useStore(state => {
-    
-    const pixelsMatrix = state.pixels
-    const pixels = pixelsMatrix.reduce((acc, row) => [...acc, ...row], [])
-    const onPixelDown = (pixel: Pixel) => state.setLastPixelDown(pixel)
-    const onPixelLeave = (pixel: Pixel) => state.setHovered(pixel, false)
+  const store = useStore((state) => {
+    const pixelsMatrix = state.pixels;
+    const pixels = pixelsMatrix.reduce((acc, row) => [...acc, ...row], []);
+    const onPixelDown = (pixel: Pixel) => state.setLastPixelDown(pixel);
+    const onPixelLeave = (pixel: Pixel) => state.setHovered(pixel, false);
     const onPixelEnter = (pixel: Pixel) => {
       state.isMouseDown
-      ? state.updatePixel(pixel, {...pixel, hovered: true, on: !state.lastPixelDown?.on })
-      : state.setHovered(pixel, true)
-    }
-    const screencode = gridToPairOfUint160(state.pixels)
-    return { ...state, screencode, pixels, pixelsMatrix, onPixelDown, onPixelEnter, onPixelLeave }
-  })
+        ? state.updatePixel(pixel, {
+            ...pixel,
+            hovered: true,
+            on: !state.lastPixelDown?.on,
+          })
+        : state.setHovered(pixel, true);
+    };
+    const screencode = gridToPairOfUint160(state.pixels);
+    return {
+      ...state,
+      screencode,
+      pixels,
+      pixelsMatrix,
+      onPixelDown,
+      onPixelEnter,
+      onPixelLeave,
+    };
+  });
 
   useEffect(() => {
-    const onMouseDown = () => store.setMouseDown(true)
-    const onMouseUp = () => store.setMouseDown(false)
+    const onMouseDown = () => store.setMouseDown(true);
+    const onMouseUp = () => store.setMouseDown(false);
 
-    document.body.addEventListener('mousedown', onMouseDown);
-    document.body.addEventListener('mouseup', onMouseUp);
+    document.body.addEventListener("mousedown", onMouseDown);
+    document.body.addEventListener("mouseup", onMouseUp);
 
     return () => {
-      document.body.removeEventListener('mousedown', onMouseDown);
-      document.body.removeEventListener('mouseup', onMouseUp);
-    }
-  }, [store])
+      document.body.removeEventListener("mousedown", onMouseDown);
+      document.body.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [store]);
 
-  return store
-}
+  return store;
+};
 
 function gridToPairOfUint160(pixels: Pixel[][]) {
   let gridR = pixels.map((val, index) =>
@@ -109,5 +125,5 @@ function gridToPairOfUint160(pixels: Pixel[][]) {
   return {
     leftCode: leftPart.toString(),
     rightCode: rightPart.toString(),
-  }
+  };
 }

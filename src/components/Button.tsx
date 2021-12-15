@@ -24,8 +24,6 @@ const ButtonStyled = styled.button`
     250ms ease-in-out border-radius;
   font-weight: 600;
   text-transform: uppercase;
-  border-top-left-radius: 12px;
-  border-bottom-right-radius: 12px;
   background-color: ${(props) => props.theme.grayscale[75]};
   color: ${(props) => props.theme.grayscale[15]};
 
