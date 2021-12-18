@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 import { useEffect } from "react";
 import { BigNumber } from "ethers";
 
@@ -20,46 +21,55 @@ type ScreenState = {
   setMouseDown: (isMouseDown: boolean) => void;
 };
 
-const useStore = create<ScreenState>((set) => {
-  const width = SCREENWIDTH;
-  const height = SCREENHEIGHT;
-  const aspectRatio = width / height;
-  const pixels = Array.from({ length: height }, (v, y) => {
-    return Array.from({ length: width }, (v, x) => {
-      return { x, y, on: false } as Pixel;
-    });
-  });
-
-  const updatePixel = (pixel: Pixel, update: Pixel) =>
-    set((state: ScreenState) => ({
-      pixels: state.pixels.map((v, y) => {
-        return state.pixels[y].map((v, x) => {
-          const px = state.pixels[y][x];
-          const isY = y === pixel.y;
-          const isX = x === pixel.x;
-          if (isY && isX) return update;
-          return px;
+const useStore = create<ScreenState>(
+  persist(
+    (set) => {
+      const width = SCREENWIDTH;
+      const height = SCREENHEIGHT;
+      const aspectRatio = width / height;
+      const pixels = Array.from({ length: height }, (v, y) => {
+        return Array.from({ length: width }, (v, x) => {
+          return { x, y, on: false } as Pixel;
         });
-      }),
-    }));
+      });
 
-  return {
-    width,
-    height,
-    aspectRatio,
-    pixels,
-    updatePixel,
-    isErasing: false,
-    isMouseDown: false,
-    setLastPixelDown: (pixel: Pixel) =>
-      set((state) => ({ lastPixelDown: pixel })),
-    togglePixel: (pixel: Pixel) =>
-      updatePixel(pixel, { ...pixel, on: !pixel.on }),
-    setHovered: (pixel: Pixel, hovered: boolean) =>
-      updatePixel(pixel, { ...pixel, hovered }),
-    setMouseDown: (isMouseDown: boolean) => set((state) => ({ isMouseDown })),
-  };
-});
+      const updatePixel = (pixel: Pixel, update: Pixel) =>
+        set((state: ScreenState) => ({
+          pixels: state.pixels.map((v, y) => {
+            return state.pixels[y].map((v, x) => {
+              const px = state.pixels[y][x];
+              const isY = y === pixel.y;
+              const isX = x === pixel.x;
+              if (isY && isX) return update;
+              return px;
+            });
+          }),
+        }));
+
+      return {
+        width,
+        height,
+        aspectRatio,
+        pixels,
+        updatePixel,
+        isErasing: false,
+        isMouseDown: false,
+        setLastPixelDown: (pixel: Pixel) =>
+          set((state) => ({ lastPixelDown: pixel })),
+        togglePixel: (pixel: Pixel) =>
+          updatePixel(pixel, { ...pixel, on: !pixel.on }),
+        setHovered: (pixel: Pixel, hovered: boolean) =>
+          updatePixel(pixel, { ...pixel, hovered }),
+        setMouseDown: (isMouseDown: boolean) =>
+          set((state) => ({ isMouseDown })),
+      };
+    },
+    {
+      name: "okpc-screen",
+      partialize: ({ pixels }) => ({ pixels }),
+    }
+  )
+);
 
 export const useScreen = () => {
   const store = useStore((state) => {
