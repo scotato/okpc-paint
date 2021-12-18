@@ -19,6 +19,7 @@ type ScreenState = {
   togglePixel: (pixel: Pixel) => void;
   setHovered: (pixel: Pixel, hovered: boolean) => void;
   setMouseDown: (isMouseDown: boolean) => void;
+  clearPixels: () => void;
 };
 
 const useStore = create<ScreenState>(
@@ -62,6 +63,9 @@ const useStore = create<ScreenState>(
           updatePixel(pixel, { ...pixel, hovered }),
         setMouseDown: (isMouseDown: boolean) =>
           set((state) => ({ isMouseDown })),
+        clearPixels: () => {
+          set((state: ScreenState) => ({ pixels }));
+        },
       };
     },
     {

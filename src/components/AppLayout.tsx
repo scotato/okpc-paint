@@ -2,6 +2,7 @@ import styled from "styled-components";
 // import { Link } from "react-router-dom";
 
 import { Logo } from "./Logo";
+import { ClearButton } from "./ClearButton";
 import { ExportButton } from "./ExportButton";
 // import { rainbow } from "../theme";
 
@@ -24,7 +25,10 @@ function AppLayout({ children }: { children: JSX.Element }) {
               tiny-83
             </AppLinkExternal>
           </AppLinks> */}
-          <ExportButton />
+          <AppButtons>
+            <ClearButton />
+            <ExportButton />
+          </AppButtons>
         </AppFooter>
       </AppBody>
     </AppContainer>
@@ -67,6 +71,11 @@ const AppFooter = styled.footer`
   padding: 16px;
   font-weight: 600;
   gap: 32px;
+`;
+
+const AppButtons = styled.div`
+  display: flex;
+  gap: 16px;
 `;
 
 // const AppLinks = styled.div`
