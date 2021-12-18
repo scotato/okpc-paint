@@ -1,6 +1,7 @@
 import create from "zustand";
 import { useEffect } from "react";
 import { BigNumber } from "ethers";
+
 export const SCREENWIDTH = 24;
 export const SCREENHEIGHT = 16;
 
@@ -12,13 +13,17 @@ type ScreenState = {
   isMouseDown: boolean;
   isErasing: boolean;
   lastPixelDown?: Pixel;
+  updatePixel: (pixel: Pixel, update: Pixel) => void;
+  setLastPixelDown: (pixel: Pixel) => void;
+  togglePixel: (pixel: Pixel) => void;
+  setHovered: (pixel: Pixel, hovered: boolean) => void;
+  setMouseDown: (isMouseDown: boolean) => void;
 };
 
-const useStore = create((set) => {
+const useStore = create<ScreenState>((set) => {
   const width = SCREENWIDTH;
   const height = SCREENHEIGHT;
   const aspectRatio = width / height;
-  const lastPixelDown = undefined as undefined | Pixel;
   const pixels = Array.from({ length: height }, (v, y) => {
     return Array.from({ length: width }, (v, x) => {
       return { x, y, on: false } as Pixel;
@@ -44,17 +49,15 @@ const useStore = create((set) => {
     aspectRatio,
     pixels,
     updatePixel,
-    lastPixelDown,
     isErasing: false,
     isMouseDown: false,
     setLastPixelDown: (pixel: Pixel) =>
-      set((state: ScreenState) => ({ lastPixelDown: pixel })),
+      set((state) => ({ lastPixelDown: pixel })),
     togglePixel: (pixel: Pixel) =>
       updatePixel(pixel, { ...pixel, on: !pixel.on }),
     setHovered: (pixel: Pixel, hovered: boolean) =>
       updatePixel(pixel, { ...pixel, hovered }),
-    setMouseDown: (isMouseDown: boolean) =>
-      set((state: ScreenState) => ({ isMouseDown })),
+    setMouseDown: (isMouseDown: boolean) => set((state) => ({ isMouseDown })),
   };
 });
 
