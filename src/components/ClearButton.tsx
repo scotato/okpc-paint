@@ -1,8 +1,10 @@
 import { Button } from "./Button";
-import { useScreen } from "../hooks/useScreen";
+import { ScreenState, useStore } from "../hooks/useScreen";
+
+const selector = (state: ScreenState) => state.clearPixels;
 
 export const ClearButton = () => {
-  const { clearPixels } = useScreen();
+  const clearPixels = useStore(selector);
 
   const clearWithConfirm = () => {
     const confirmed = window.confirm("Are you sure?");

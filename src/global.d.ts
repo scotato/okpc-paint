@@ -5,5 +5,4 @@ type Pixel = {
   x: number;
   y: number;
   on: boolean;
-  hovered: boolean;
 };

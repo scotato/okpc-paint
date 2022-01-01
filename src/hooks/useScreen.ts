@@ -6,7 +6,8 @@ import { BigNumber } from "ethers";
 export const SCREENWIDTH = 24;
 export const SCREENHEIGHT = 16;
 
-type ScreenState = {
+
+export type ScreenState = {
   width: number;
   height: number;
   aspectRatio: number;
@@ -17,12 +18,11 @@ type ScreenState = {
   updatePixel: (pixel: Pixel, update: Pixel) => void;
   setLastPixelDown: (pixel: Pixel) => void;
   togglePixel: (pixel: Pixel) => void;
-  setHovered: (pixel: Pixel, hovered: boolean) => void;
   setMouseDown: (isMouseDown: boolean) => void;
   clearPixels: () => void;
 };
 
-const useStore = create<ScreenState>(
+export const useStore = create<ScreenState>(
   persist(
     (set) => {
       const width = SCREENWIDTH;
@@ -59,8 +59,6 @@ const useStore = create<ScreenState>(
           set((state) => ({ lastPixelDown: pixel })),
         togglePixel: (pixel: Pixel) =>
           updatePixel(pixel, { ...pixel, on: !pixel.on }),
-        setHovered: (pixel: Pixel, hovered: boolean) =>
-          updatePixel(pixel, { ...pixel, hovered }),
         setMouseDown: (isMouseDown: boolean) =>
           set((state) => ({ isMouseDown })),
         clearPixels: () => {
@@ -75,30 +73,24 @@ const useStore = create<ScreenState>(
   )
 );
 
-export const useScreen = () => {
+export const useScreen = (shouldReturnCode: boolean = false) => {
   const store = useStore((state) => {
-    const pixelsMatrix = state.pixels;
-    const pixels = pixelsMatrix.reduce((acc, row) => [...acc, ...row], []);
-    const onPixelDown = (pixel: Pixel) => state.setLastPixelDown(pixel);
-    const onPixelLeave = (pixel: Pixel) => state.setHovered(pixel, false);
     const onPixelEnter = (pixel: Pixel) => {
       state.isMouseDown
-        ? state.updatePixel(pixel, {
+        && state.updatePixel(pixel, {
             ...pixel,
-            hovered: true,
             on: !state.lastPixelDown?.on,
           })
-        : state.setHovered(pixel, true);
     };
-    const screencode = gridToPairOfUint160(state.pixels);
+    let screencode = undefined;
+    if (shouldReturnCode) {
+      screencode = gridToPairOfUint160(state.pixels);
+    }
     return {
       ...state,
       screencode,
-      pixels,
-      pixelsMatrix,
-      onPixelDown,
+      pixels: state.pixels,
       onPixelEnter,
-      onPixelLeave,
     };
   });
 

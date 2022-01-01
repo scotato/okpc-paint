@@ -9,6 +9,9 @@ export const MintButton = () => {
   const { send, state, encode256 } = useMint();
   const { screencode } = useScreen();
   const onClick = () => {
+    if (!screencode) {
+      return;
+    }
     const leftPart = encode256(screencode.leftCode);
     const rightPart = encode256(screencode.rightCode);
     console.log(screencode.leftCode, leftPart);

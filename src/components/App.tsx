@@ -7,12 +7,14 @@ import HomePage from "../pages/HomePage";
 import HelpPage from "../pages/HelpPage";
 import { useTheme } from "../hooks/useTheme";
 import { useWindow } from "../hooks/useWindow";
-import { useScreen } from "../hooks/useScreen";
+import { ScreenState, useStore } from "../hooks/useScreen";
 import theme from "../theme";
+
+const selector = (state: ScreenState) => ({width: state.width, height: state.height, aspectRatio: state.aspectRatio});
 
 function App() {
   const { grayscale } = useTheme();
-  const { width, height, aspectRatio } = useScreen();
+  const { width, height, aspectRatio } = useStore(selector);
   const window = useWindow();
   const screen = { width, height, aspectRatio };
 
