@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ReactDomServer from "react-dom/server";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Button } from "./Button";
-import { useScreen } from "../hooks/useScreen";
+import { ScreenState, useStore } from "../hooks/useScreen";
 
 export const ExportButton = () => {
   const [copied, setCopied] = useState(false);
@@ -30,8 +30,11 @@ export const ExportButton = () => {
   );
 };
 
+const selector = (state: ScreenState) => ({width: state.width, height: state.height, pixelsMatrix: state.pixels});
+
 const Screen = () => {
-  const { width, height, pixels } = useScreen();
+  const { width, height, pixelsMatrix } = useStore(selector);
+  const pixels = pixelsMatrix.reduce((acc, row) => [...acc, ...row], []);
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} xmlns="http://www.w3.org/2000/svg">

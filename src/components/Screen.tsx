@@ -1,56 +1,55 @@
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useScreen } from "../hooks/useScreen";
 
+interface PixelGridProps {
+  width: number;
+  height: number;
+  pixelsMatrix: Pixel[][];
+
+  onPixelClick: (pixel: Pixel) => void;
+  onMouseEnter: (pixel: Pixel) => void;
+  onMouseDown: (pixel: Pixel) => void;
+}
+
+
+const PixelGrid = React.memo(function PixelGrid ({width, height, pixelsMatrix, onPixelClick, onMouseDown, onMouseEnter}: PixelGridProps) {
+  const pixels = pixelsMatrix.reduce((acc, row) => [...acc, ...row], []);
+  return (<SVG viewBox={`0 0 ${width} ${height}`} xmlns="http://www.w3.org/2000/svg">
+  <Background width={width} height={height} />
+  {pixels.map((pixel, i) => {
+    return (
+      <Pixel
+        key={i}
+        width={1.1}
+        height={1.1}
+        x={pixel.x}
+        y={pixel.y}
+        onClick={() => onPixelClick(pixel)}
+        onMouseEnter={() => onMouseEnter(pixel)}
+        onMouseDown={() => onMouseDown(pixel)}
+        isOn={pixel.on}
+      />
+    );
+  })}
+</SVG>)
+});
+
+const noop = () => {};
+
 export const Screen = () => {
   const {
-    width,
-    height,
-    pixels,
     togglePixel,
-    onPixelDown,
+    setLastPixelDown,
     onPixelEnter,
-    onPixelLeave,
+    height,
+    width,
+    pixels
   } = useScreen();
-  const onMouseDown = (pixel: Pixel) => () => onPixelDown(pixel);
-  const onMouseEnter = (pixel: Pixel) => () => onPixelEnter(pixel);
-  const onMouseLeave = (pixel: Pixel) => () => onPixelLeave(pixel);
-  const onPixelClick = (pixel: Pixel) => () => togglePixel(pixel);
+  const onMouseEnter = useCallback((pixel: Pixel) => onPixelEnter(pixel), [onPixelEnter]);
+  const onPixelClick = useCallback((pixel: Pixel) => togglePixel(pixel), [togglePixel]);
 
-  return (
-    <SVG viewBox={`0 0 ${width} ${height}`} xmlns="http://www.w3.org/2000/svg">
-      <Background width={width} height={height} />
-      {pixels.map((pixel, i) => {
-        return (
-          <Pixel
-            key={i}
-            width={1.1}
-            height={1.1}
-            x={pixel.x}
-            y={pixel.y}
-            onClick={onPixelClick(pixel)}
-            onMouseEnter={onMouseEnter(pixel)}
-            onMouseLeave={onMouseLeave(pixel)}
-            onMouseDown={onMouseDown(pixel)}
-            isOn={pixel.on}
-          />
-        );
-      })}
-      {/* <rect
-        SCREENwidth="3"
-        SCREENheight="3"
-        x={width - 3}
-        y={height - 3}
-        style={style.background}
-      />
-      <rect
-        SCREENwidth="1"
-        SCREENheight="1"
-        x={width - 2}
-        y={height - 2}
-        style={style.on}
-      /> */}
-    </SVG>
-  );
+return <PixelGrid height={height} width={width} pixelsMatrix={pixels} onMouseDown={setLastPixelDown} onMouseEnter={onMouseEnter} onPixelClick={onPixelClick} />
 };
 
 const SVG = styled.svg`
